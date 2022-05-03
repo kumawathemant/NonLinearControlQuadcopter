@@ -2,15 +2,18 @@
 ECE6554 Final Project\\
 
 ### Instruction to run:\\
-1. Main file: \\
-    args.reference 
+1. Main file: 
+\
+    **args.reference**
+    \
                    1 = scalar 
                    \
                    2 = sine 
                    \
                    3 = rsteps 
                    \
-    args.Adaptive Law 
+    **args.Adaptive Law**
+    \
                        1 Linear Feedback
                        \
                        2. Linear Adaptive
