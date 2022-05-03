@@ -1,7 +1,7 @@
 # NonLinearControlQuadcopter
-ECE6554 Final Project\
+ECE6554 Final Project
 
-### Instruction to run:\
+### Instruction to run:
 1. Main file: 
 \
     **args.reference**
