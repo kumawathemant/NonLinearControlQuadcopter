@@ -1,0 +1,22 @@
+function [A,B,Am,Bm,A0,B0,K,x0] = linearized(quad,args)
+    Phi = @(mismatch) [0, 0, 0, -mismatch*quad.grav*sin(quad.init_pos(6)), -mismatch*quad.grav*cos(quad.init_pos(6)), 0;
+       0, 0, 0, quad.grav*cos(quad.init_pos(6)), -mismatch*quad.grav*sin(quad.init_pos(6)), 0;
+       0, 0, 0, 0,           0,          0;
+       0, 0, 0, 0,           0,          0;
+       0, 0, 0, 0,           0,          0;
+       0, 0, 0, 0,           0,          0];
+
+    Delta = @(mismatch) [quad.thrust/(quad.mass*mismatch),      quad.thrust/(quad.mass*mismatch),           quad.thrust/(quad.mass*mismatch),       quad.thrust/(quad.mass*mismatch);
+         0,         -quad.thrust*(quad.arm_length*mismatch)/quad.moments(1),       0,          quad.thrust*(quad.arm_length*mismatch)/quad.moments(1),;
+         quad.thrust*(quad.arm_length*mismatch)/quad.moments(2),   0,              -quad.thrust*(quad.arm_length*mismatch)/quad.moments(2),   0;
+         quad.thrust/quad.moments(3),     -quad.thrust/quad.moments(3),         quad.thrust/quad.moments(3),      -quad.thrust/quad.moments(3)];
+    
+    %% Standard
+    A0 = [zeros(6),eye(6); Phi(1), zeros(6)];
+    B0 = [zeros(8,4); Delta(1)];
+    A = [zeros(8,4); Delta(args.mismatch)];
+    B = [zeros(8,4); Delta(args.mismatch)];
+    %% Pole Placement
+    Q = 1000*eye(12);
+    [P,~,K] = place(A0,B)
+end
